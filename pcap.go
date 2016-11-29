@@ -340,20 +340,6 @@ func sockaddrToIP(rsa *syscall.RawSockaddr) (IP []byte, err error) {
 	return
 }
 
-// Inject ...
-func (p *Pcap) Inject(data []byte) (err error) {
-	buf := (*C.char)(C.malloc((C.size_t)(len(data))))
-
-	for i := 0; i < len(data); i++ {
-		*(*byte)(unsafe.Pointer(uintptr(unsafe.Pointer(buf)) + uintptr(i))) = data[i]
-	}
-
-	if -1 == C.pcap_inject(p.cptr, unsafe.Pointer(buf), (C.size_t)(len(data))) {
-		err = p.Geterror()
-	}
-	C.free(unsafe.Pointer(buf))
-	return
-}
 
 func (p *Pcap) DumpOpen(ofile *string) (dumper *PcapDumper, err error) {
 	d := new(PcapDumper)
