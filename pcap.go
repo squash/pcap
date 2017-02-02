@@ -233,7 +233,8 @@ func (p *Pcap) SetFilter(expr string) (err error) {
 	C.pcap_freecode(&bpf)
 	return nil
 }
-
+// removed for winpcap compatibility
+/*
 func (p *Pcap) SetDirection(direction string) (err error) {
 	var pcap_direction C.pcap_direction_t
 	if direction == "in" {
@@ -248,7 +249,7 @@ func (p *Pcap) SetDirection(direction string) (err error) {
 	}
 	return nil
 }
-
+*/
 func (p *Pcap) SetDataLink(dlt int) error {
 	if -1 == C.pcap_set_datalink(p.cptr, C.int(dlt)) {
 		return p.Geterror()
